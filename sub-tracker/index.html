@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <!-- 한글 페이지와 모바일 화면을 정상적으로 표시하기 위한 기본 설정입니다. -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>구독 트래커</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- 화면 전체를 감싸는 앱 영역입니다. -->
+  <main class="app-shell">
+    <!-- 페이지 제목과 오늘 날짜를 보여주는 상단 영역입니다. -->
+    <header class="page-header">
+      <div>
+        <p class="eyebrow">SUBSCRIPTION TRACKER</p>
+        <h1>매달 빠져나가는 돈,<br><em>한눈에 관리하세요.</em></h1>
+      </div>
+      <p class="today-label" id="todayLabel"></p>
+    </header>
+
+    <!-- JavaScript가 계산한 합계와 결제 예정 수를 표시합니다. -->
+    <section class="summary-grid" aria-label="지출 요약">
+      <article class="summary-card summary-card--dark">
+        <span>월 합계</span>
+        <strong id="monthlyTotal">0원</strong>
+        <small>매월 반복되는 지출</small>
+      </article>
+      <article class="summary-card">
+        <span>연간 합계</span>
+        <strong id="yearlyTotal">0원</strong>
+        <small>1년 동안 예상되는 지출</small>
+      </article>
+      <article class="summary-card summary-card--accent">
+        <span>이번 주 결제 예정</span>
+        <strong id="upcomingCount">0건</strong>
+        <small id="upcomingLabel">앞으로 7일 이내</small>
+      </article>
+    </section>
+
+    <!-- 왼쪽에는 목록, 오른쪽에는 입력 폼과 차트를 배치합니다. -->
+    <div class="content-grid">
+      <section class="panel subscriptions-panel">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">MY SUBSCRIPTIONS</p>
+            <h2>구독 목록</h2>
+          </div>
+          <span class="count-badge" id="subscriptionCount">0개</span>
+        </div>
+        <!-- 구독 카드가 JavaScript로 이 안에 만들어집니다. -->
+        <div class="subscription-list" id="subscriptionList"></div>
+      </section>
+
+      <aside class="side-column">
+        <section class="panel form-panel">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">ADD NEW</p>
+              <h2 id="formTitle">새 구독 추가</h2>
+            </div>
+          </div>
+          <!-- 새 구독을 추가하거나 기존 구독을 수정하는 공용 폼입니다. -->
+          <form id="subscriptionForm">
+            <input type="hidden" id="subscriptionId" name="subscriptionId">
+            <label for="name">서비스 이름</label>
+            <input id="name" name="name" type="text" placeholder="예: 넷플릭스" required maxlength="40">
+
+            <div class="form-row">
+              <div>
+                <label for="amount">금액</label>
+                <div class="money-input"><input id="amount" name="amount" type="number" min="0" step="100" placeholder="13,500" required><span>원</span></div>
+              </div>
+              <div>
+                <label for="cycle">결제 주기</label>
+                <select id="cycle" name="cycle">
+                  <option value="monthly">매월</option>
+                  <option value="yearly">매년</option>
+                </select>
+              </div>
+            </div>
+
+            <label for="nextPaymentDate">다음 결제일</label>
+            <input id="nextPaymentDate" name="nextPaymentDate" type="date" required>
+
+            <label for="category">카테고리</label>
+            <input id="category" name="category" type="text" placeholder="예: 영상" maxlength="20" required>
+
+            <div class="form-actions">
+              <button class="button button--primary" type="submit" id="submitButton">구독 저장</button>
+              <button class="button button--text is-hidden" type="button" id="cancelButton">수정 취소</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- 카테고리별 월 지출 비중을 막대 그래프로 표시합니다. -->
+        <section class="panel category-panel">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">SPENDING MIX</p>
+              <h2>카테고리별 비중</h2>
+            </div>
+          </div>
+          <div id="categoryChart" class="category-chart"></div>
+        </section>
+      </aside>
+    </div>
+  </main>
+  <!-- 계산 함수가 먼저 로드되어야 main.js에서 사용할 수 있습니다. -->
+  <script src="js/logic.js"></script>
+  <!-- 화면 동작을 담당하는 진입 파일입니다. -->
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
